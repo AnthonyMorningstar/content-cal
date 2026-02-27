@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // ============================================
 // Single Post API — Read, Update, Delete
 // ============================================
@@ -106,7 +107,7 @@ export async function PUT(
     const validation = updatePostSchema.safeParse(body);
 
     if (!validation.success) {
-      const errors = validation.error.errors.map((e) => e.message);
+      const errors = validation.error.issues.map((e: any) => e.message);
       return NextResponse.json(
         { success: false, error: errors[0] },
         { status: 400 }

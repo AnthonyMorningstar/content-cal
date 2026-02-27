@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // ============================================
 // Posts API — List & Create
 // ============================================
@@ -149,7 +150,7 @@ export async function POST(request: NextRequest) {
     const validation = createPostSchema.safeParse(body);
 
     if (!validation.success) {
-      const errors = validation.error.errors.map((e) => e.message);
+      const errors = validation.error.issues.map((e: any) => e.message);
       return NextResponse.json(
         { success: false, error: errors[0] },
         { status: 400 }

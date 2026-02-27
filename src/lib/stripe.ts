@@ -7,8 +7,11 @@
 import Stripe from "stripe";
 
 // Initialize Stripe with secret key
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-06-20",
+// Fallback to a placeholder string during build if key is missing
+const stripeKey = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder";
+
+export const stripe = new Stripe(stripeKey, {
+  apiVersion: "2026-02-25.clover",
   typescript: true,
 });
 

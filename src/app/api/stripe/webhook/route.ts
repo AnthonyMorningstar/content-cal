@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // ============================================
 // Stripe Webhook Handler
 // ============================================
@@ -54,9 +55,9 @@ export async function POST(request: NextRequest) {
         if (!userId || !session.subscription) break;
 
         // Get subscription details
-        const subscription = await stripe.subscriptions.retrieve(
+        const stripeSub = (await stripe.subscriptions.retrieve(
           session.subscription as string
-        );
+        )) as Stripe.Subscription;
 
         // Update database
         await prisma.subscription.upsert({
@@ -64,21 +65,21 @@ export async function POST(request: NextRequest) {
           update: {
             plan: "PRO",
             stripeCustomerId: session.customer as string,
-            stripeSubscriptionId: subscription.id,
-            stripePriceId: subscription.items.data[0]?.price.id,
+            stripeSubscriptionId: stripeSub.id,
+            stripePriceId: stripeSub.items.data[0]?.price.id,
             currentPeriodEnd: new Date(
-              subscription.current_period_end * 1000
+              (stripeSub as any).current_period_end * 1000
             ),
-            cancelAtPeriodEnd: subscription.cancel_at_period_end,
+            cancelAtPeriodEnd: (stripeSub as any).cancel_at_period_end,
           },
           create: {
             userId,
             plan: "PRO",
             stripeCustomerId: session.customer as string,
-            stripeSubscriptionId: subscription.id,
-            stripePriceId: subscription.items.data[0]?.price.id,
+            stripeSubscriptionId: stripeSub.id,
+            stripePriceId: stripeSub.items.data[0]?.price.id,
             currentPeriodEnd: new Date(
-              subscription.current_period_end * 1000
+              (stripeSub as any).current_period_end * 1000
             ),
             cancelAtPeriodEnd: false,
           },
@@ -91,14 +92,15 @@ export async function POST(request: NextRequest) {
       // ---- Invoice paid (renewal) ----
       case "invoice.payment_succeeded": {
         const invoice = event.data.object as Stripe.Invoice;
-        const subscriptionId = invoice.subscription as string;
+        const subscriptionId = (invoice as any).subscription as string;
 
         if (!subscriptionId) break;
 
         // Get subscription details
-        const subscription =
-          await stripe.subscriptions.retrieve(subscriptionId);
-        const userId = subscription.metadata?.userId;
+        const stripeSub = (await stripe.subscriptions.retrieve(
+          subscriptionId
+        )) as Stripe.Subscription;
+        const userId = stripeSub.metadata?.userId;
 
         if (!userId) break;
 
@@ -108,9 +110,9 @@ export async function POST(request: NextRequest) {
           data: {
             plan: "PRO",
             currentPeriodEnd: new Date(
-              subscription.current_period_end * 1000
+              (stripeSub as any).current_period_end * 1000
             ),
-            cancelAtPeriodEnd: subscription.cancel_at_period_end,
+            cancelAtPeriodEnd: (stripeSub as any).cancel_at_period_end,
           },
         });
 
@@ -120,36 +122,36 @@ export async function POST(request: NextRequest) {
 
       // ---- Subscription updated (cancel/reactivate) ----
       case "customer.subscription.updated": {
-        const subscription = event.data.object as Stripe.Subscription;
+        const stripeSub = event.data.object as Stripe.Subscription;
 
         const dbSub = await prisma.subscription.findUnique({
-          where: { stripeSubscriptionId: subscription.id },
+          where: { stripeSubscriptionId: stripeSub.id },
         });
 
         if (!dbSub) break;
 
         await prisma.subscription.update({
-          where: { stripeSubscriptionId: subscription.id },
+          where: { stripeSubscriptionId: stripeSub.id },
           data: {
-            cancelAtPeriodEnd: subscription.cancel_at_period_end,
+            cancelAtPeriodEnd: (stripeSub as any).cancel_at_period_end,
             currentPeriodEnd: new Date(
-              subscription.current_period_end * 1000
+              (stripeSub as any).current_period_end * 1000
             ),
           },
         });
 
         console.log(
-          `✅ Subscription updated: cancelAtPeriodEnd=${subscription.cancel_at_period_end}`
+          `✅ Subscription updated: cancelAtPeriodEnd=${(stripeSub as any).cancel_at_period_end}`
         );
         break;
       }
 
       // ---- Subscription deleted/expired ----
       case "customer.subscription.deleted": {
-        const subscription = event.data.object as Stripe.Subscription;
+        const stripeSub = event.data.object as Stripe.Subscription;
 
         await prisma.subscription.updateMany({
-          where: { stripeSubscriptionId: subscription.id },
+          where: { stripeSubscriptionId: stripeSub.id },
           data: {
             plan: "FREE",
             stripeSubscriptionId: null,
@@ -159,7 +161,7 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        console.log(`✅ Subscription canceled/expired: ${subscription.id}`);
+        console.log(`✅ Subscription canceled/expired: ${stripeSub.id}`);
         break;
       }
 

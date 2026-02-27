@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // ============================================
 // User Registration API
 // ============================================
@@ -36,7 +37,7 @@ export async function POST(request: NextRequest) {
     const validationResult = registerSchema.safeParse(body);
 
     if (!validationResult.success) {
-      const errors = validationResult.error.errors.map((e) => e.message);
+      const errors = validationResult.error.issues.map((e: any) => e.message);
       return NextResponse.json(
         { success: false, error: errors[0] },
         { status: 400 }
