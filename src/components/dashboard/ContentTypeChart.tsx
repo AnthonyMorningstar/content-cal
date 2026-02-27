@@ -7,7 +7,6 @@
 "use client";
 
 import { CONTENT_TYPE_CONFIG } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 import type { DashboardStats } from "@/types";
 
 interface ContentTypeChartProps {
@@ -116,32 +115,32 @@ export default function ContentTypeChart({ stats }: ContentTypeChartProps) {
 
         {/* Legend */}
         <div className="flex-1 space-y-2.5">
-          {types.length === 0 ? (
+          {segments.length === 0 ? (
             <p className="text-sm text-slate-400 dark:text-slate-500">
               No posts yet
             </p>
           ) : (
-            types.map((type) => (
+            segments.map((segment) => (
               <div
-                key={type.key}
+                key={segment.key}
                 className="flex items-center justify-between"
               >
                 <div className="flex items-center gap-2">
                   <div
                     className="h-3 w-3 rounded-full shrink-0"
-                    style={{ backgroundColor: type.config.color }}
+                    style={{ backgroundColor: segment.config.color }}
                   />
-                  <span className="text-sm">{type.config.icon}</span>
+                  <span className="text-sm">{segment.config.icon}</span>
                   <span className="text-sm text-slate-600 dark:text-slate-400">
-                    {type.config.label}
+                    {segment.config.label}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-semibold text-slate-900 dark:text-white">
-                    {type.count}
+                    {segment.count}
                   </span>
                   <span className="w-10 text-right text-xs text-slate-400 dark:text-slate-500">
-                    {Math.round(type.percent)}%
+                    {Math.round(segment.percent)}%
                   </span>
                 </div>
               </div>

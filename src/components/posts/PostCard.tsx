@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { StatusBadge, ContentTypeBadge } from "@/components/posts/StatusBadge";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
-import { cn, formatDate, truncate } from "@/lib/utils";
+import { formatDate, truncate } from "@/lib/utils";
 import type { PostWithCategory } from "@/types";
 
 interface PostCardProps {

@@ -25,7 +25,6 @@ import { StatusBadge, ContentTypeBadge } from "@/components/posts/StatusBadge";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import { cn, formatDate } from "@/lib/utils";
 import { STATUS_CONFIG, CONTENT_TYPE_CONFIG } from "@/lib/constants";
-import toast from "react-hot-toast";
 import type { PostWithCategory } from "@/types";
 
 const statusOptions = Object.entries(STATUS_CONFIG).map(([value, config]) => ({
@@ -319,11 +318,11 @@ export default function PostSlideOver({
                   <p className="text-sm font-semibold text-slate-900 dark:text-white">
                     {post.calendarDate
                       ? formatDate(post.calendarDate, {
-                          weekday: "long",
-                          month: "long",
-                          day: "numeric",
-                          year: "numeric",
-                        })
+                        weekday: "long",
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      })
                       : "Not scheduled"}
                   </p>
                 </div>

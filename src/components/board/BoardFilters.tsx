@@ -7,11 +7,10 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Filter, X, SlidersHorizontal } from "lucide-react";
+import { Search, X, SlidersHorizontal } from "lucide-react";
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import { CONTENT_TYPE_CONFIG } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 
 const typeFilterOptions = [
   { value: "", label: "All Types" },

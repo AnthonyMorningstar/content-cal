@@ -12,7 +12,6 @@ import {
   Calendar,
   Columns3,
   FileText,
-  Sparkles,
   Zap,
 } from "lucide-react";
 

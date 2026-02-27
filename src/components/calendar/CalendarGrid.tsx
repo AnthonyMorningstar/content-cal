@@ -24,7 +24,6 @@ import CalendarCell from "./CalendarCell";
 import UnscheduledSidebar from "./UnscheduledSidebar";
 import DraggablePost from "./DraggablePost";
 import { DAYS_SHORT } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 import type { CalendarDay, PostWithCategory } from "@/types";
 
 interface CalendarGridProps {
@@ -87,7 +86,7 @@ export default function CalendarGrid({
   );
 
   // ---- Drag Over (preview) ----
-  const handleDragOver = useCallback((event: DragOverEvent) => {
+  const handleDragOver = useCallback((_event: DragOverEvent) => {
     // Could add preview logic here if needed
   }, []);
 
@@ -198,7 +197,7 @@ export default function CalendarGrid({
           <div className="w-48">
             <DraggablePost
               post={activePost}
-              onClick={() => {}}
+              onClick={() => { }}
               isDraggingOverlay
             />
           </div>

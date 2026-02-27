@@ -8,7 +8,7 @@
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Plus, Calendar, Sparkles } from "lucide-react";
+import { Plus, Calendar } from "lucide-react";
 import Button from "@/components/ui/Button";
 
 export default function WelcomeBanner() {

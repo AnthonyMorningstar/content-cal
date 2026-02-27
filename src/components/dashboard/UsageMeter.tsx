@@ -10,7 +10,6 @@ import Link from "next/link";
 import { Crown, AlertTriangle, Check, ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
-import { PLAN_LIMITS } from "@/lib/constants";
 import type { DashboardStats } from "@/types";
 
 interface UsageMeterProps {

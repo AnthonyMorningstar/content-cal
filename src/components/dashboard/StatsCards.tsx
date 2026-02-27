@@ -10,7 +10,6 @@ import {
   Calendar,
   Pencil,
   Rocket,
-  TrendingUp,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { DashboardStats } from "@/types";
@@ -32,9 +31,8 @@ export default function StatsCards({ stats }: StatsCardsProps) {
     },
     {
       label: "This Month",
-      value: `${stats.postsThisMonth}${
-        stats.isProUser ? "" : ` / ${stats.monthlyLimit}`
-      }`,
+      value: `${stats.postsThisMonth}${stats.isProUser ? "" : ` / ${stats.monthlyLimit}`
+        }`,
       icon: Calendar,
       color:
         "text-emerald-600 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-900/20",

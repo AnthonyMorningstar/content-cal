@@ -10,7 +10,6 @@ import { useSearchParams } from "next/navigation";
 import {
   CreditCard,
   CheckCircle2,
-  XCircle,
   Receipt,
   Shield,
 } from "lucide-react";
@@ -182,7 +181,7 @@ export default function BillingPage() {
                         width: `${Math.min(
                           ((billing?.postsUsedThisMonth || 0) /
                             (billing?.postsLimit || 10)) *
-                            100,
+                          100,
                           100
                         )}%`,
                       }}

@@ -7,7 +7,6 @@
 "use client";
 
 import { STATUS_CONFIG } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 import type { DashboardStats } from "@/types";
 
 interface PipelineChartProps {

@@ -15,7 +15,6 @@ import {
   Palette,
   Save,
   ArrowLeft,
-  Loader2,
 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
@@ -104,11 +103,11 @@ export default function PostForm({ post, mode = "create" }: PostFormProps) {
 
     const postData: CreatePostInput = {
       title: title.trim(),
-      description: description.trim() || null,
+      description: description.trim() || undefined,
       status: status as CreatePostInput["status"],
       contentType: contentType as CreatePostInput["contentType"],
       calendarDate: calendarDate || null,
-      notes: notes.trim() || null,
+      notes: notes.trim() || undefined,
       color,
       categoryId: categoryId || null,
     };
@@ -263,11 +262,11 @@ export default function PostForm({ post, mode = "create" }: PostFormProps) {
                 <ContentTypeBadge
                   type={
                     contentType as
-                      | "BLOG_POST"
-                      | "YOUTUBE_VIDEO"
-                      | "SOCIAL_MEDIA"
-                      | "PODCAST"
-                      | "OTHER"
+                    | "BLOG_POST"
+                    | "YOUTUBE_VIDEO"
+                    | "SOCIAL_MEDIA"
+                    | "PODCAST"
+                    | "OTHER"
                   }
                 />
               </div>

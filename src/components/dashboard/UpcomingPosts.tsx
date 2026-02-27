@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { StatusBadge } from "@/components/posts/StatusBadge";
 import { formatDate } from "@/lib/utils";
-import { isToday, isTomorrow, differenceInDays, isPast, addDays } from "date-fns";
+import { isToday, isTomorrow, differenceInDays, addDays } from "date-fns";
 import type { PostWithCategory } from "@/types";
 
 interface UpcomingPostsProps {
@@ -94,11 +94,10 @@ export default function UpcomingPosts({ posts }: UpcomingPostsProps) {
                     {formatDate(date, { month: "short" }).split(" ")[0]}
                   </span>
                   <span
-                    className={`text-lg font-bold ${
-                      isPostToday
+                    className={`text-lg font-bold ${isPostToday
                         ? "text-brand-600 dark:text-brand-400"
                         : "text-slate-700 dark:text-slate-300"
-                    }`}
+                      }`}
                   >
                     {date.getDate()}
                   </span>
