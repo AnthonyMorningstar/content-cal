@@ -17,7 +17,6 @@ import {
   useSensors,
   type DragStartEvent,
   type DragEndEvent,
-  type DragOverEvent,
 } from "@dnd-kit/core";
 import { format } from "date-fns";
 import CalendarCell from "./CalendarCell";

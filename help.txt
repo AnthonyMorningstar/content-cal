@@ -23,9 +23,9 @@ mysql://35CLTAaRtHDzsNt.root:<PASSWORD>@gateway01.ap-southeast-1.prod.aws.tidbcl
 ------------------------
 
 DATABASE_URL	mysql://35CLTAaRtHDzsNt.root:mUnUQOTl6OXy9WX3@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/test?sslaccept=strict
-NEXTAUTH_URL	Your production URL (e.g., https://your-app.vercel.app)
-NEXTAUTH_SECRET	A secure random string
-NEXT_PUBLIC_APP_URL	Your production URL
+NEXTAUTH_URL	https://content-cal.vercel.app
+NEXTAUTH_SECRET	557343e74ff917f6920f78553da06d5c 
+NEXT_PUBLIC_APP_URL	https://content-cal.vercel.app
 NEXT_PUBLIC_APP_NAME	ContentCal
 
 -----------------------------------------------
