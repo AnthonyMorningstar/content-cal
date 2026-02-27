@@ -127,5 +127,6 @@ export const authOptions: NextAuthOptions = {
   debug: process.env.NODE_ENV === "development",
 
   // Secret for JWT encryption
-  secret: process.env.NEXTAUTH_SECRET,
+  // Fallback during build to prevent initialization errors
+  secret: process.env.NEXTAUTH_SECRET || "fallback-secret-for-build-only",
 };
