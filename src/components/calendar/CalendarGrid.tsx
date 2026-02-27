@@ -86,7 +86,7 @@ export default function CalendarGrid({
   );
 
   // ---- Drag Over (preview) ----
-  const handleDragOver = useCallback((_event: DragOverEvent) => {
+  const handleDragOver = useCallback(() => {
     // Could add preview logic here if needed
   }, []);
 
