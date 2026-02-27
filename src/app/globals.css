@@ -2,26 +2,224 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================
+   Google Font Import
+   ============================================ */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+/* ============================================
+   Base Layer - CSS Variables & Resets
+   ============================================ */
+@layer base {
+ :root {
+    --color-bg-primary: 248 250 252;
+    --color-bg-secondary: 255 255 255;
+    --color-bg-tertiary: 241 245 249;
+    --color-text-primary: 15 23 42;
+    --color-text-secondary: 100 116 139;
+    --color-text-tertiary: 148 163 184;
+    --color-border: 226 232 240;
+    --color-border-hover: 203 213 225;
+    --color-ring: 99 102 241;
+    --toast-bg: #ffffff;
+    --toast-color: #0f172a;
+    --toast-border: #e2e8f0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.dark {
+    --color-bg-primary: 15 23 42;
+    --color-bg-secondary: 30 41 59;
+    --color-bg-tertiary: 51 65 85;
+    --color-text-primary: 248 250 252;
+    --color-text-secondary: 148 163 184;
+    --color-text-tertiary: 100 116 139;
+    --color-border: 51 65 85;
+    --color-border-hover: 71 85 105;
+    --color-ring: 129 140 248;
+    --toast-bg: #1e293b;
+    --toast-color: #f8fafc;
+    --toast-border: #334155;
+}
+
+  /* Smooth theme transition */
+  * {
+    @apply transition-colors duration-200;
+  }
+
+  /* Prevent transition flash on page load */
+  html.no-transition * {
+    transition: none !important;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-50;
+    @apply antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-300 dark:bg-slate-600;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400 dark:bg-slate-500;
+  }
+
+  /* Firefox scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(203 213 225) transparent;
+  }
+
+  .dark * {
+    scrollbar-color: rgb(71 85 105) transparent;
+  }
+
+  /* Focus styles */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================================
+   Component Layer - Reusable Styles
+   ============================================ */
+@layer components {
+  /* Glass morphism effect */
+  .glass {
+    @apply bg-white/80 backdrop-blur-xl dark:bg-slate-800/80;
+  }
+
+  /* Card styles */
+  .card {
+    @apply rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800;
+  }
+
+  .card-hover {
+    @apply card transition-all duration-200 hover:shadow-md hover:border-slate-300 dark:hover:border-slate-600;
+  }
+
+  /* Status colors for content pipeline */
+  .status-idea {
+    @apply bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400;
+  }
+
+  .status-writing {
+    @apply bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400;
+  }
+
+  .status-editing {
+    @apply bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400;
+  }
+
+  .status-published {
+    @apply bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400;
+  }
+
+  /* Content type badges */
+  .type-blog {
+    @apply bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400;
+  }
+
+  .type-youtube {
+    @apply bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400;
+  }
+
+  .type-social {
+    @apply bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-400;
+  }
+
+  .type-podcast {
+    @apply bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400;
+  }
+
+  /* Input field style */
+  .input-field {
+    @apply w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-colors;
+    @apply focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20;
+    @apply dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder-slate-500;
+    @apply dark:focus:border-brand-400 dark:focus:ring-brand-400/20;
+  }
+
+  /* Drag and drop styles */
+  .dragging {
+    @apply opacity-50 shadow-2xl scale-105 rotate-2;
+  }
+
+  .drop-target {
+    @apply ring-2 ring-brand-500 ring-dashed bg-brand-50/50 dark:bg-brand-900/20;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply animate-pulse rounded-lg bg-slate-200 dark:bg-slate-700;
+  }
+
+  /* Page container */
+  .page-container {
+    @apply mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8;
+  }
+
+  /* Page title */
+  .page-title {
+    @apply text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl;
+  }
+
+  /* Sidebar link */
+  .sidebar-link {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition-all;
+    @apply hover:bg-slate-100 hover:text-slate-900;
+    @apply dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white;
+  }
+
+  .sidebar-link-active {
+    @apply sidebar-link bg-brand-50 text-brand-700;
+    @apply dark:bg-brand-900/20 dark:text-brand-400;
+  }
 }
 
+/* ============================================
+   Utility Layer
+   ============================================ */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent;
+    @apply dark:from-brand-400 dark:to-purple-400;
+  }
+
+  /* Smooth appearance for calendar cells */
+  .calendar-cell {
+    @apply min-h-[120px] rounded-lg border border-slate-200 p-2 transition-all;
+    @apply hover:border-brand-300 hover:shadow-sm;
+    @apply dark:border-slate-700 dark:hover:border-brand-600;
+  }
+
+  .calendar-cell-today {
+    @apply calendar-cell border-brand-500 bg-brand-50/50;
+    @apply dark:border-brand-500 dark:bg-brand-900/20;
+  }
+
+  .calendar-cell-other-month {
+    @apply calendar-cell opacity-40;
   }
 }

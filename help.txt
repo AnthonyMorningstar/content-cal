@@ -1,0 +1,123 @@
+
+https://github.com/AnthonyMorningstar/content-cal.git
+
+git remote add origin https://github.com/AnthonyMorningstar/content-cal.git
+git branch -M main
+git push -u origin main
+
+Cluster Name: contentcal
+Cluster ID: 10522311392974542842
+TiDB Version: v8.5.3
+Cloud Provider: AWS
+Region: Singapore (ap-southeast-1)
+
+mysql://35CLTAaRtHDzsNt.root:mUnUQOTl6OXy9WX3@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/test?sslaccept=strict
+
+HOST: gateway01.ap-southeast-1.prod.aws.tidbcloud.com
+PORT: 4000
+USERNAME: 35CLTAaRtHDzsNt.root
+Password: mUnUQOTl6OXy9WX3
+
+mysql://35CLTAaRtHDzsNt.root:<PASSWORD>@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/test
+
+------------------------
+
+DATABASE_URL	mysql://35CLTAaRtHDzsNt.root:mUnUQOTl6OXy9WX3@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/test?sslaccept=strict
+NEXTAUTH_URL	Your production URL (e.g., https://your-app.vercel.app)
+NEXTAUTH_SECRET	A secure random string
+NEXT_PUBLIC_APP_URL	Your production URL
+NEXT_PUBLIC_APP_NAME	ContentCal
+
+-----------------------------------------------
+
+🔧 Stripe Setup Guide
+To test Stripe payments, follow these steps:
+
+1. Create a Stripe Account
+Go to https://dashboard.stripe.com and sign up.
+
+2. Get API Keys
+From the Stripe Dashboard → Developers → API Keys:
+
+env
+STRIPE_SECRET_KEY="sk_test_..."
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
+
+3. Create a Product + Price
+Go to Products → Add Product:
+
+Name: ContentCal Pro
+Price: $5.00 / month (recurring)
+Copy the Price ID (starts with price_)
+
+env
+STRIPE_PRO_MONTHLY_PRICE_ID="price_..."
+
+4. Set Up Webhook (for local testing)
+Install the Stripe CLI:
+
+Bash
+# Windows (using scoop)
+scoop install stripe
+# Or download from https://stripe.com/docs/stripe-cli
+
+Then run:
+Bash
+stripe login
+stripe listen --forward-to localhost:3000/api/stripe/webhook
+
+It will output a webhook signing secret:
+
+env
+STRIPE_WEBHOOK_SECRET="whsec_..."
+
+5. Test Cards
+Use these test card numbers:
+
+✅ Success: 4242 4242 4242 4242
+❌ Decline: 4000 0000 0000 0002
+Any future expiry date + any CVC
+
+------------------------------------------------------------
+
+🔧 PayPal Setup Guide (Optional)
+1. Create PayPal Developer Account
+Go to https://developer.paypal.com
+
+2. Create an App
+Dashboard → Apps & Credentials → Create App
+
+env
+PAYPAL_CLIENT_ID="..."
+PAYPAL_CLIENT_SECRET="..."
+NEXT_PUBLIC_PAYPAL_CLIENT_ID="..."
+
+3. Create a Subscription Plan
+Dashboard → Subscriptions → Create Plan
+
+Product: ContentCal Pro
+Price: $5.00 / month
+Copy the Plan ID
+
+env
+PAYPAL_PRO_PLAN_ID="P-..."
+
+4. Set Up Webhook
+Dashboard → Webhooks → Add Webhook
+
+URL: https://your-domain.com/api/paypal/webhook
+Events: BILLING.SUBSCRIPTION.ACTIVATED, BILLING.SUBSCRIPTION.CANCELLED, PAYMENT.SALE.COMPLETED
+
+env
+PAYPAL_WEBHOOK_ID="..."
+
+"⚠️ Note: PayPal webhooks only work with a public URL (not localhost). For local testing, use Stripe first.
+PayPal will work when you deploy."
+
+✅ Test It!
+
+Bash
+npm run dev
+
+-----------------------------------------------------------------
+
